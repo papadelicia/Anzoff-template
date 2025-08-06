@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アンゾフの成長マトリクス - テンプレート</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif;
+            line-height: 1.4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            margin: 2px 0 0 0;
+            opacity: 0.9;
+            font-size: 0.85em;
+        }
+        
+        .company-info {
+            background: white;
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .company-info input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .company-info input::placeholder {
+            color: #999;
+            font-weight: normal;
+        }
+        
+        .matrix-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+        }
+        
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr;
+            grid-template-rows: 50px 1fr 1fr;
+            gap: 1px;
+            background: #999;
+            border: 1px solid #999;
+            min-height: 650px;
+        }
+        
+        .matrix-cell {
+            background: white;
+            padding: 10px;
+            overflow: hidden;
+        }
+        
+        .header-cell {
+            background: #34495e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .label-cell {
+            background: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 0.9em;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+        
+        .label-cell.horizontal {
+            writing-mode: horizontal-tb;
+        }
+        
+        .strategy-cell {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .strategy-title {
+            font-size: 0.95em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            padding: 5px;
+            border-radius: 3px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .market-penetration .strategy-title {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .product-development .strategy-title {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .market-development .strategy-title {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .diversification .strategy-title {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+        
+        .strategy-content {
+            flex: 1;
+            display: flex;
+        }
+        
+        .strategy-textarea {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            font-family: inherit;
+        }
+        
+        .strategy-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .comment-section {
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .comment-label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        
+        .comment-textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: none;
+            font-family: inherit;
+        }
+        
+        .comment-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #34495e;
+        }
+        
+        .btn-secondary:hover {
+            background: #bdc3c7;
+        }
+        
+        .instructions {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 5px;
+        }
+        
+        .instructions h3 {
+            margin: 0 0 8px 0;
+            color: #667eea;
+            font-size: 1em;
+        }
+        
+        .instructions ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin: 3px 0;
+            font-size: 0.85em;
+        }
+        
+        /* 印刷専用スタイル */
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+            
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+            
+            .container {
+                width: 100%;
+                max-width: none;
+                height: calc(297mm - 20mm);
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .header {
+                background: white !important;
+                color: black !important;
+                border: 2px solid #333;
+                padding: 8px;
+                margin-bottom: 8px;
+                page-break-after: avoid;
+            }
+            
+            h1 {
+                color: black !important;
+                font-size: 1.3em;
+                margin: 0;
+            }
+            
+            .subtitle {
+                color: #555 !important;
+                font-size: 0.8em;
+                margin: 1px 0 0 0;
+            }
+            
+            .instructions {
+                display: none;
+            }
+            
+            .action-buttons {
+                display: none;
+            }
+            
+            .company-info {
+                margin-bottom: 8px;
+                page-break-after: avoid;
+                padding: 12px;
+            }
+            
+            .company-info input {
+                padding: 10px 12px;
+                font-size: 14px;
+                border: 1px solid #666;
+            }
+            
+            .matrix-container {
+                padding: 0;
+                box-shadow: none;
+                page-break-inside: avoid;
+                margin-bottom: 8px;
+                flex: 1;
+            }
+            
+            .matrix-grid {
+                height: 100%;
+                min-height: 580px;
+                grid-template-rows: 35px 1fr 1fr;
+                grid-template-columns: 75px 1fr 1fr;
+            }
+            
+            .matrix-cell {
+                padding: 6px;
+                page-break-inside: avoid;
+            }
+            
+            .strategy-cell {
+                padding: 5px;
+            }
+            
+            .header-cell {
+                background: #ddd !important;
+                color: black !important;
+                border: 1px solid #999;
+                font-size: 0.8em;
+            }
+            
+            .label-cell {
+                background: #f0f0f0 !important;
+                color: black !important;
+                border: 1px solid #999;
+                font-size: 0.8em;
+            }
+            
+            .strategy-title {
+                background: #e0e0e0 !important;
+                color: black !important;
+                border: 1px solid #999;
+                font-size: 0.85em;
+                margin-bottom: 5px;
+                padding: 3px;
+            }
+            
+            .strategy-textarea {
+                border: 1px solid #666;
+                font-size: 10.5px;
+                line-height: 1.4;
+                padding: 6px;
+            }
+            
+            .comment-section {
+                padding: 0;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            
+            .comment-label {
+                font-size: 0.85em;
+                margin-bottom: 4px;
+            }
+            
+            .comment-textarea {
+                height: 100px;
+                border: 1px solid #666;
+                font-size: 10.5px;
+                padding: 6px;
+                line-height: 1.4;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .matrix-grid {
+                grid-template-columns: 60px 1fr 1fr;
+                min-height: 600px;
+            }
+            
+            .label-cell {
+                font-size: 0.8em;
+            }
+            
+            .strategy-textarea {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>アンゾフの成長マトリクス</h1>
+            <p class="subtitle">戦略的成長オプションの分析テンプレート</p>
+        </div>
+        
+        <div class="instructions">
+            <h3>📝 使い方</h3>
+            <ul>
+                <li>各セルに具体的な戦略案を記入してください</li>
+                <li>複数の戦略案がある場合は、箇条書きで記載できます</li>
+                <li>戦略の優先順位、実施時期、必要リソースなども記載可能です</li>
+                <li>記入後は「印刷する」ボタンで出力できます</li>
+            </ul>
+        </div>
+        
+        <div class="company-info">
+            <input type="text" placeholder="企業名・製品名を入力（例：〇〇株式会社 ハンディファン事業）" id="companyName">
+        </div>
+        
+        <div class="matrix-container">
+            <div class="matrix-grid">
+                <!-- ヘッダー行 -->
+                <div class="matrix-cell header-cell"></div>
+                <div class="matrix-cell label-cell horizontal">既存製品</div>
+                <div class="matrix-cell label-cell horizontal">新製品</div>
+                
+                <!-- 既存市場行 -->
+                <div class="matrix-cell label-cell">既存市場</div>
+                <div class="matrix-cell strategy-cell">
+                    <div class="strategy-title market-penetration">市場浸透戦略</div>
+                    <div class="strategy-content">
+                        <textarea class="strategy-textarea" placeholder="例：&#10;• 限定カラーモデルの展開（春夏シーズン）&#10;• 大手量販店での割引キャンペーン実施&#10;• オンライン販売チャネルの強化&#10;• 既存顧客向けリピート購入促進プログラム&#10;• SNSマーケティングの強化&#10;• アフターサービスの充実による顧客満足度向上&#10;• インフルエンサーマーケティングの活用&#10;• 店頭デモンストレーションの実施"></textarea>
+                    </div>
+                </div>
+                <div class="matrix-cell strategy-cell">
+                    <div class="strategy-title product-development">製品開発戦略</div>
+                    <div class="strategy-content">
+                        <textarea class="strategy-textarea" placeholder="例：&#10;• ミスト機能付きハンディファンの開発&#10;• IoT連携モデル（スマホアプリ制御）&#10;• 空気清浄機能搭載モデル&#10;• 超静音設計のプレミアムモデル&#10;• 充電式＋ソーラーパネル搭載エコモデル&#10;• アロマディフューザー機能付きモデル&#10;• 首掛け式ハンズフリーモデル&#10;• 防水仕様のアウトドアモデル"></textarea>
+                    </div>
+                </div>
+                
+                <!-- 新市場行 -->
+                <div class="matrix-cell label-cell">新市場</div>
+                <div class="matrix-cell strategy-cell">
+                    <div class="strategy-title market-development">市場開発戦略</div>
+                    <div class="strategy-content">
+                        <textarea class="strategy-textarea" placeholder="例：&#10;• ペット向け冷却ファン市場への参入&#10;• B2B市場開拓（オフィス・工場向け）&#10;• 東南アジア市場への輸出展開&#10;• スポーツ・アウトドア市場への進出&#10;• 医療・介護施設向け専用モデル開発&#10;• 車載用ファン市場への参入&#10;• 教育機関向け販売&#10;• EC専売モデルの展開"></textarea>
+                    </div>
+                </div>
+                <div class="matrix-cell strategy-cell">
+                    <div class="strategy-title diversification">多角化戦略</div>
+                    <div class="strategy-content">
+                        <textarea class="strategy-textarea" placeholder="例：&#10;• ウェアラブル冷却デバイスの開発&#10;• スマート空調システム事業への進出&#10;• 冷却技術を活用した美容機器開発&#10;• パーソナルヒーター製品への展開&#10;• 空気質モニタリングデバイス事業&#10;• サブスクリプション型レンタルサービス&#10;• 冷却マットレス・寝具事業&#10;• パーソナル環境制御システム"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comment-section">
+            <div class="comment-label">コメント・補足事項</div>
+            <textarea class="comment-textarea" placeholder="優先順位、実施時期、必要リソース、その他の考慮事項などを記載してください" id="comments"></textarea>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="window.print()">印刷する</button>
+            <button class="btn btn-secondary" onclick="clearAll()">クリア</button>
+        </div>
+    </div>
+    
+    <script>
+        function clearAll() {
+            if (confirm('すべての入力内容をクリアしますか？')) {
+                document.querySelectorAll('.strategy-textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+                document.getElementById('companyName').value = '';
+                document.getElementById('comments').value = '';
+                localStorage.removeItem('ansoffMatrix');
+            }
+        }
+        
+        function saveToLocalStorage() {
+            const data = {
+                companyName: document.getElementById('companyName').value,
+                strategies: [],
+                comments: document.getElementById('comments').value
+            };
+            
+            document.querySelectorAll('.strategy-textarea').forEach(textarea => {
+                data.strategies.push(textarea.value);
+            });
+            
+            localStorage.setItem('ansoffMatrix', JSON.stringify(data));
+        }
+        
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('ansoffMatrix');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('companyName').value = data.companyName || '';
+                document.getElementById('comments').value = data.comments || '';
+                
+                const textareas = document.querySelectorAll('.strategy-textarea');
+                data.strategies.forEach((strategy, index) => {
+                    if (textareas[index]) {
+                        textareas[index].value = strategy;
+                    }
+                });
+            }
+        }
+        
+        window.addEventListener('load', loadFromLocalStorage);
+        document.addEventListener('input', saveToLocalStorage);
+    </script>
+</body>
+</html>
