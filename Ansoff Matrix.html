@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アンゾフの成長マトリクス - ハンディファン事業戦略</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            margin-top: 10px;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .matrix-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 150px 1fr 1fr;
+            grid-template-rows: 150px 1fr 1fr;
+            gap: 2px;
+            background: #ddd;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .matrix-cell {
+            background: white;
+            padding: 25px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .matrix-cell:hover:not(.header-cell):not(.label-cell) {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        .header-cell {
+            background: #34495e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .label-cell {
+            background: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .market-penetration {
+            background: #e8f5e9;
+        }
+        
+        .product-development {
+            background: #e3f2fd;
+        }
+        
+        .market-development {
+            background: #fff3e0;
+        }
+        
+        .diversification {
+            background: #fce4ec;
+        }
+        
+        .strategy-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .strategy-icon {
+            font-size: 1.5em;
+        }
+        
+        .strategy-content {
+            margin-bottom: 20px;
+        }
+        
+        .product-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        
+        .product-list li {
+            background: rgba(255,255,255,0.7);
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            transition: transform 0.2s;
+        }
+        
+        .product-list li:hover {
+            transform: translateX(5px);
+        }
+        
+        .metrics {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .metrics-title {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .risk-level {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .risk-low {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .risk-medium {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .risk-high {
+            background: #f44336;
+            color: white;
+        }
+        
+        .timeline {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .timeline-year {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #3498db;
+            margin-right: 30px;
+            min-width: 80px;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .insights-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+        
+        .insights-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .insight-item {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .matrix-grid {
+                grid-template-columns: 100px 1fr;
+                grid-template-rows: auto;
+            }
+            
+            .matrix-cell {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ハンディファン事業の成長戦略</h1>
+        <div class="subtitle">アンゾフの成長マトリクスを活用した新商品開発プラン</div>
+    </div>
+    
+    <div class="matrix-container">
+        <h2 style="text-align: center; color: #34495e; margin-bottom: 30px;">成長戦略マトリクス</h2>
+        
+        <div class="matrix-grid">
+            <!-- ヘッダー行 -->
+            <div class="matrix-cell header-cell"></div>
+            <div class="matrix-cell label-cell">既存製品</div>
+            <div class="matrix-cell label-cell">新製品</div>
+            
+            <!-- 既存市場行 -->
+            <div class="matrix-cell label-cell">既存市場</div>
+            <div class="matrix-cell market-penetration">
+                <div class="strategy-title">
+                    <span class="strategy-icon">📈</span>
+                    市場浸透戦略
+                </div>
+                <div class="strategy-content">
+                    <p><strong>現行ハンディファンの販売強化</strong></p>
+                    <ul class="product-list">
+                        <li>限定カラーモデル（季節限定・コラボ商品）</li>
+                        <li>2個セット・ファミリーパックの展開</li>
+                        <li>学生割引・シニア割引キャンペーン</li>
+                        <li>サブスクリプションモデル（毎年新モデル提供）</li>
+                    </ul>
+                    <div class="metrics">
+                        <div class="metrics-title">期待効果</div>
+                        <div>売上成長率：15-20%</div>
+                        <div>投資回収期間：6ヶ月</div>
+                    </div>
+                    <span class="risk-level risk-low">リスク：低</span>
+                </div>
+            </div>
+            <div class="matrix-cell product-development">
+                <div class="strategy-title">
+                    <span class="strategy-icon">🔧</span>
+                    製品開発戦略
+                </div>
+                <div class="strategy-content">
+                    <p><strong>革新的機能を持つ新型ファン</strong></p>
+                    <ul class="product-list">
+                        <li>冷却ミスト機能付きファン（微細ミスト噴霧）</li>
+                        <li>首掛け式ハンズフリーファン（軽量設計）</li>
+                        <li>スマホ連動IoTファン（温度自動調整）</li>
+                        <li>空気清浄機能付きファン（HEPA フィルター搭載）</li>
+                    </ul>
+                    <div class="metrics">
+                        <div class="metrics-title">期待効果</div>
+                        <div>新規顧客獲得率：30%</div>
+                        <div>プレミアム価格：既存品の1.5-2倍</div>
+                    </div>
+                    <span class="risk-level risk-medium">リスク：中</span>
+                </div>
+            </div>
+            
+            <!-- 新市場行 -->
+            <div class="matrix-cell label-cell">新市場</div>
+            <div class="matrix-cell market-development">
+                <div class="strategy-title">
+                    <span class="strategy-icon">🌍</span>
+                    市場開発戦略
+                </div>
+                <div class="strategy-content">
+                    <p><strong>新たな顧客層・用途の開拓</strong></p>
+                    <ul class="product-list">
+                        <li>ペット用ファン（犬・猫の散歩用）</li>
+                        <li>工事現場・作業員向け強力ファン</li>
+                        <li>医療・介護施設向け静音ファン</li>
+                        <li>キャンプ・アウトドア専用モデル</li>
+                    </ul>
+                    <div class="metrics">
+                        <div class="metrics-title">期待効果</div>
+                        <div>新市場シェア目標：10%</div>
+                        <div>BtoB売上比率：40%</div>
+                    </div>
+                    <span class="risk-level risk-medium">リスク：中</span>
+                </div>
+            </div>
+            <div class="matrix-cell diversification">
+                <div class="strategy-title">
+                    <span class="strategy-icon">🚀</span>
+                    多角化戦略
+                </div>
+                <div class="strategy-content">
+                    <p><strong>冷却技術を活かした新カテゴリー</strong></p>
+                    <ul class="product-list">
+                        <li>ウェアラブル冷却デバイス（冷却ベスト）</li>
+                        <li>車載用スマート空調システム</li>
+                        <li>パーソナルエアコンディショナー</li>
+                        <li>冷却機能付きVRヘッドセットアクセサリー</li>
+                    </ul>
+                    <div class="metrics">
+                        <div class="metrics-title">期待効果</div>
+                        <div>新規事業売上目標：5億円（3年後）</div>
+                        <div>技術特許取得：5件以上</div>
+                    </div>
+                    <span class="risk-level risk-high">リスク：高</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="timeline">
+        <h2 style="text-align: center; color: #34495e; margin-bottom: 30px;">実行ロードマップ</h2>
+        
+        <div class="timeline-item">
+            <div class="timeline-year">2025</div>
+            <div class="timeline-content">
+                <strong>市場浸透フェーズ</strong><br>
+                限定モデル投入、販売チャネル拡大、ブランド認知度向上キャンペーン
+            </div>
+        </div>
+        
+        <div class="timeline-item" style="border-left-color: #3498db;">
+            <div class="timeline-year">2026</div>
+            <div class="timeline-content">
+                <strong>製品開発フェーズ</strong><br>
+                ミスト機能付きファン、首掛けファンの市場投入、IoT連携機能の開発
+            </div>
+        </div>
+        
+        <div class="timeline-item" style="border-left-color: #ff9800;">
+            <div class="timeline-year">2027</div>
+            <div class="timeline-content">
+                <strong>市場開発フェーズ</strong><br>
+                BtoB市場参入、ペット用・業務用製品ライン確立、海外市場展開準備
+            </div>
+        </div>
+        
+        <div class="timeline-item" style="border-left-color: #e91e63;">
+            <div class="timeline-year">2028</div>
+            <div class="timeline-content">
+                <strong>多角化フェーズ</strong><br>
+                ウェアラブル冷却デバイス発売、新技術プラットフォーム確立、M&A検討
+            </div>
+        </div>
+    </div>
+    
+    <div class="insights-box">
+        <h2 class="insights-title">🔍 戦略的インサイト</h2>
+        
+        <div class="insight-item">
+            <h3>💡 段階的アプローチの重要性</h3>
+            <p>リスクの低い市場浸透戦略から始め、得られた収益とノウハウを活用して、より挑戦的な戦略へと段階的に移行することで、持続可能な成長を実現します。</p>
+        </div>
+        
+        <div class="insight-item">
+            <h3>🔗 シナジー効果の最大化</h3>
+            <p>各戦略は独立したものではなく、相互に補完し合います。例えば、IoTファンの技術は、将来のウェアラブルデバイスや車載システムの基盤となります。</p>
+        </div>
+        
+        <div class="insight-item">
+            <h3>📊 KPI設定と継続的評価</h3>
+            <p>各戦略には明確なKPIを設定し、四半期ごとに進捗を評価。市場環境の変化に応じて、戦略の優先順位や内容を柔軟に調整する体制を構築します。</p>
+        </div>
+    </div>
+</body>
+</html>
